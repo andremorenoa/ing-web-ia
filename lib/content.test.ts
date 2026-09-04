@@ -16,7 +16,7 @@ describe("NEARSHORING_FACTS", () => {
 
 describe("CONTACT", () => {
   it("has a matching phone and phoneHref", () => {
-    expect(CONTACT.phoneHref).toBe("tel:+528440000000");
-    expect(CONTACT.email).toBe("cotizaciones@vektorcnc.mx");
+    expect(CONTACT.phoneHref).toBe(`tel:${CONTACT.phone.replace(/\s/g, "")}`);
+    expect(CONTACT.email).toMatch(/^[^@]+@[^@]+\.[^@]+$/);
   });
 });

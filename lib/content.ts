@@ -13,7 +13,7 @@ export const NEARSHORING_FACTS = [
 ];
 
 export const CONTACT = {
-  email: "cotizaciones@vektorcnc.mx",
+  email: "andremoreno@gmail.com",
   phone: "+52 844 123 4567",
   phoneHref: "tel:+528441234567",
   address: "Parque Industrial, Saltillo, Coahuila, México",
