@@ -10,7 +10,7 @@ describe("HERO_METRICS", () => {
 describe("NEARSHORING_FACTS", () => {
   it("includes the Saltillo-Laredo logistics facts from the brief", () => {
     const values = NEARSHORING_FACTS.map((f) => f.value);
-    expect(values).toEqual(["300 km", "3 hrs", "T-MEC", "Sin fletes marítimos"]);
+    expect(values).toEqual(["300 km", "3 hrs", "T-MEC", "Sin fletes marítimos", "Puerta a puerta"]);
   });
 });
 

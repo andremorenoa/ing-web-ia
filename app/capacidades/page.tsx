@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { CategorySection } from "@/components/services/CategorySection";
+import { MachineSpecTable } from "@/components/services/MachineSpecTable";
 import { IMAGES } from "@/lib/images";
 import { getServicesByCategory } from "@/lib/services";
 
@@ -30,6 +31,7 @@ export default function CapacidadesPage() {
       {categoryGroups.map((group) => (
         <CategorySection key={group.category} group={group} />
       ))}
+      <MachineSpecTable />
     </div>
   );
 }

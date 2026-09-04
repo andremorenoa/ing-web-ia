@@ -13,7 +13,7 @@ const VARIANT_CLASSES: Record<Variant, string> = {
   primary:
     "bg-torch-500 text-carbon-950 hover:bg-torch-600 hover:shadow-[var(--glow-cta-hover)]",
   secondary:
-    "bg-transparent text-paper-50 border border-steel-700 hover:border-steel-600 hover:bg-steel-900",
+    "bg-transparent text-paper-50 border border-steel-700 hover:border-torch-500/40 hover:bg-steel-900",
   tertiary: "h-auto bg-transparent px-0 text-torch-400 hover:underline",
   destructive:
     "bg-transparent text-signal-red border border-signal-red/40 hover:bg-signal-red/10",

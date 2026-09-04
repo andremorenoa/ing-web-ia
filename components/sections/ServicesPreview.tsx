@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { LinkButton } from "@/components/ui/Button";
+import { CapabilityChip } from "@/components/ui/CapabilityChip";
+import { DataBadge } from "@/components/ui/DataBadge";
 import type { Service } from "@/lib/services";
 
 export function ServicesPreview({ services }: { services: Service[] }) {
@@ -13,23 +15,37 @@ export function ServicesPreview({ services }: { services: Service[] }) {
           {services.map((service, index) => (
             <article
               key={service.id}
-              className="bg-steel-900 p-6 transition-colors hover:bg-steel-800"
+              className="bg-steel-900 p-6 transition-colors hover:bg-steel-800 hover:ring-1 hover:ring-inset hover:ring-torch-500/40"
             >
               <span className="font-mono text-xs text-steel-400">
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <h3 className="mb-4 mt-2 text-[1.375rem] font-semibold">{service.name}</h3>
-              <ul className="mb-5 space-y-1 font-mono text-[0.9375rem] text-steel-300">
+              <h3 className="mb-2 mt-2 text-[1.375rem] font-semibold">{service.name}</h3>
+              <p className="mb-4 text-sm text-steel-400">{service.description}</p>
+              <ul className="mb-4 space-y-1 font-mono text-[0.9375rem] text-steel-300">
                 {service.specs.slice(0, 2).map((spec) => (
                   <li key={spec}>{spec}</li>
                 ))}
               </ul>
-              <Link
-                href={`/capacidades#${service.id}`}
-                className="text-sm text-torch-400 hover:underline focus-visible:outline-none focus-visible:shadow-[var(--ring-focus)]"
-              >
-                Ver ficha
-              </Link>
+              <div className="mb-4 flex flex-wrap gap-2">
+                {service.materials.slice(0, 3).map((material) => (
+                  <CapabilityChip key={material}>{material}</CapabilityChip>
+                ))}
+              </div>
+              <div className="mb-5">
+                <DataBadge label="Entrega" value={service.leadTime} />
+              </div>
+              <div className="flex flex-wrap items-center gap-5">
+                <Link
+                  href={`/capacidades#${service.id}`}
+                  className="text-sm text-torch-400 hover:underline focus-visible:outline-none focus-visible:shadow-[var(--ring-focus)]"
+                >
+                  Ver ficha
+                </Link>
+                <LinkButton href="/#cotizacion" variant="tertiary">
+                  Cotizar este proceso
+                </LinkButton>
+              </div>
             </article>
           ))}
         </div>

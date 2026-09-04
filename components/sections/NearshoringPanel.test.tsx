@@ -9,5 +9,6 @@ describe("NearshoringPanel", () => {
     expect(screen.getByText("3 hrs")).toBeInTheDocument();
     expect(screen.getByText("T-MEC")).toBeInTheDocument();
     expect(screen.getByText("Sin fletes marítimos")).toBeInTheDocument();
+    expect(screen.getByText("Puerta a puerta")).toBeInTheDocument();
   });
 });

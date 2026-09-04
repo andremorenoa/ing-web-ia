@@ -3,6 +3,7 @@ import { LinkButton } from "@/components/ui/Button";
 import { CapabilityChip } from "@/components/ui/CapabilityChip";
 import { CornerTicks } from "@/components/ui/CornerTicks";
 import { DimensionLine } from "@/components/ui/DimensionLine";
+import { StatusDot } from "@/components/ui/StatusDot";
 import { HERO_METRICS } from "@/lib/content";
 import type { StockImage } from "@/lib/images";
 
@@ -52,6 +53,13 @@ export function Hero({ image }: { image: StockImage }) {
             </div>
             <div className="mt-2 font-mono text-xs uppercase tracking-[0.06em] text-steel-400">
               Tolerancia mínima garantizada
+            </div>
+            <div className="mt-6 border-t border-steel-700 pt-4">
+              <StatusDot
+                status="available"
+                live
+                label="Capacidad de planta: abierta para cotizaciones · turnaround <24 h"
+              />
             </div>
           </div>
         </div>

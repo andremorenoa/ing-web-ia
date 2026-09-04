@@ -9,6 +9,7 @@ export const NEARSHORING_FACTS = [
   { label: "Tiempo en carretera", value: "3 hrs" },
   { label: "Tratado", value: "T-MEC" },
   { label: "Flete", value: "Sin fletes marítimos" },
+  { label: "Entrega", value: "Puerta a puerta" },
 ];
 
 export const CONTACT = {
