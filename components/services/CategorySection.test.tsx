@@ -26,6 +26,7 @@ describe("CategorySection", () => {
     expect(screen.getByText("Shims / Lainas a Medida")).toBeInTheDocument();
     expect(screen.getByText("D2 · H13 · Vanadis")).toBeInTheDocument();
     expect(screen.getByText("<24 hrs")).toBeInTheDocument();
+    expect(screen.getByText("Shims de precisión.")).toBeInTheDocument();
   });
 
   it("gives each service row an id matching its service id, for deep-linking", () => {

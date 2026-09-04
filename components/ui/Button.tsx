@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 
 type Variant = "primary" | "secondary" | "tertiary" | "destructive";
@@ -38,10 +39,21 @@ export function LinkButton({
   variant = "secondary",
   children,
   className = "",
+  href,
   ...rest
 }: BaseProps & AnchorHTMLAttributes<HTMLAnchorElement>) {
+  const combinedClassName = `${BASE_CLASSES} ${VARIANT_CLASSES[variant]} ${className}`;
+
+  if (href && (href.startsWith("/") || href.startsWith("#"))) {
+    return (
+      <Link href={href} className={combinedClassName} {...rest}>
+        {children}
+      </Link>
+    );
+  }
+
   return (
-    <a className={`${BASE_CLASSES} ${VARIANT_CLASSES[variant]} ${className}`} {...rest}>
+    <a href={href} className={combinedClassName} {...rest}>
       {children}
     </a>
   );

@@ -45,7 +45,10 @@ export function CategorySection({ group }: { group: CategoryGroup }) {
                 id={service.id}
                 className="border-b border-steel-700 hover:bg-steel-900"
               >
-                <td className="py-3 pr-4 font-medium">{service.name}</td>
+                <td className="py-3 pr-4">
+                  <div className="font-medium">{service.name}</div>
+                  <p className="text-sm text-steel-400">{service.description}</p>
+                </td>
                 <td className="py-3 pr-4 font-mono text-[0.9375rem] text-steel-300">
                   {service.materials.join(" · ")}
                 </td>

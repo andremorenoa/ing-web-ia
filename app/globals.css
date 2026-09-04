@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @import "../docs/design/tokens.css";
 
+html {
+  scroll-padding-top: 5rem;
+}
+
 body {
   background: var(--color-carbon-950);
   color: var(--color-paper-50);
