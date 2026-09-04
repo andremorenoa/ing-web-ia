@@ -14,7 +14,7 @@ export const NEARSHORING_FACTS = [
 
 export const CONTACT = {
   email: "cotizaciones@vektorcnc.mx",
-  phone: "+52 844 000 0000",
-  phoneHref: "tel:+528440000000",
+  phone: "+52 844 123 4567",
+  phoneHref: "tel:+528441234567",
   address: "Parque Industrial, Saltillo, Coahuila, México",
 };

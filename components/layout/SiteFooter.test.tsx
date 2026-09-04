@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { SiteFooter } from "@/components/layout/SiteFooter";
+import { CONTACT } from "@/lib/content";
 
 describe("SiteFooter", () => {
   it("renders the contact email and phone from CONTACT", () => {
@@ -9,9 +10,9 @@ describe("SiteFooter", () => {
       "href",
       "mailto:cotizaciones@vektorcnc.mx",
     );
-    expect(screen.getByRole("link", { name: "+52 844 000 0000" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: CONTACT.phone })).toHaveAttribute(
       "href",
-      "tel:+528440000000",
+      CONTACT.phoneHref,
     );
   });
 });

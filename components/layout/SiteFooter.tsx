@@ -54,7 +54,7 @@ export function SiteFooter() {
           </div>
         </div>
         <div className="flex justify-between border-t border-steel-700 py-6 text-[0.8125rem] text-steel-400">
-          <span>© Vektor Precision CNC</span>
+          <span>© Vektor Precision CNC • Planta Activa — Turno Saltillo</span>
           <span>ISO 9001 en proceso</span>
         </div>
       </div>
