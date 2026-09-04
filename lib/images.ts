@@ -13,40 +13,40 @@ export const IMAGES: {
   capabilitiesHeader: StockImage;
 } = {
   heroMachining: {
-    src: "https://images.pexels.com/photos/8865187/pexels-photo-8865187.jpeg?cs=srgb&dl=pexels-daniel-smyth-83914874-8865187.jpg&fm=jpg",
+    src: "/images/hero-machining.webp",
     alt: "Fresadora CNC cortando una pieza metálica, con refrigerante en el punto de corte",
-    width: 5627,
-    height: 3751,
+    width: 1920,
+    height: 1280,
     credit: {
       photographer: "Daniel Smyth",
       url: "https://www.pexels.com/@daniel-smyth-83914874/",
     },
   },
   plantOverview: {
-    src: "https://images.pexels.com/photos/31352672/pexels-photo-31352672.jpeg?cs=srgb&dl=pexels-mazhar-ulazhar-50963217-31352672.jpg&fm=jpg",
+    src: "/images/plant-overview.webp",
     alt: "Piso de planta de un taller de maquinado industrial con varios centros CNC",
-    width: 3195,
-    height: 1799,
+    width: 1920,
+    height: 1081,
     credit: {
       photographer: "Mazhar Ulazhar",
       url: "https://www.pexels.com/@mazhar-ulazhar-50963217/",
     },
   },
   metrology: {
-    src: "https://images.pexels.com/photos/36003971/pexels-photo-36003971.jpeg",
+    src: "/images/metrology.webp",
     alt: "Calibrador de precisión midiendo una pieza metálica maquinada",
-    width: 2513,
-    height: 3763,
+    width: 1200,
+    height: 1797,
     credit: {
       photographer: "Michael Orshan",
       url: "https://www.pexels.com/@michael-orshan-2159363670/",
     },
   },
   capabilitiesHeader: {
-    src: "https://images.pexels.com/photos/28752153/pexels-photo-28752153.jpeg?cs=srgb&dl=pexels-connor-lucock-259838-28752153.jpg&fm=jpg",
+    src: "/images/capabilities-header.webp",
     alt: "Piezas metálicas maquinadas de precisión en primer plano",
-    width: 5683,
-    height: 3789,
+    width: 1920,
+    height: 1280,
     credit: {
       photographer: "Connor Lucock",
       url: "https://www.pexels.com/@connor-lucock-259838/",
@@ -60,23 +60,23 @@ export const IMAGES: {
 // desgaste" for either. All four URLs verified to resolve before use.
 export const SERVICE_CARD_IMAGES: Record<string, StockImage> = {
   "cnc-001": {
-    src: "https://images.pexels.com/photos/8956313/pexels-photo-8956313.jpeg?cs=srgb&dl=pexels-daniel-smyth-83914874-8956313.jpg&fm=jpg",
+    src: "/images/service-cnc-001.webp",
     alt: "Fresadora CNC vertical cortando metal con refrigerante en el punto de corte",
-    width: 4718,
-    height: 3176,
+    width: 1000,
+    height: 673,
     credit: { photographer: "Daniel Smyth", url: "https://www.pexels.com/@daniel-smyth-83914874/" },
   },
   "cnc-003": {
-    src: "https://images.pexels.com/photos/28929510/pexels-photo-28929510.jpeg?cs=srgb&dl=pexels-connor-lucock-259838-28929510.jpg&fm=jpg",
+    src: "/images/service-cnc-003.webp",
     alt: "Torno CNC de precisión con virutas metálicas y acabado cilíndrico pulido",
-    width: 3456,
-    height: 5184,
+    width: 1000,
+    height: 1500,
     credit: { photographer: "Connor Lucock", url: "https://www.pexels.com/@connor-lucock-259838/" },
   },
   "her-001": IMAGES.metrology,
   "her-002": IMAGES.metrology,
   "est-003": {
-    src: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80",
+    src: "/images/service-est-003.webp",
     alt: "Ensamble de piezas mecánicas de precisión sobre mesa de trabajo",
     width: 800,
     height: 534,
