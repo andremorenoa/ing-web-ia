@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vektor Precision CNC — Sistema de diseño</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --color-carbon-950: #09090b;
+    --color-carbon-900: #0f1013;
+    --color-steel-900: #14181d;
+    --color-steel-800: #1e242b;
+    --color-steel-700: #2b3138;
+    --color-steel-600: #454d57;
+    --color-steel-400: #8b93a1;
+    --color-steel-300: #aeb4be;
+    --color-paper-50: #f4f5f7;
+    --color-torch-950: #2b1200;
+    --color-torch-600: #e85d00;
+    --color-torch-500: #ff6a00;
+    --color-torch-400: #ff8a33;
+    --color-readout-950: #062523;
+    --color-readout-400: #33e1d8;
+    --color-readout-300: #6bebe4;
+    --color-signal-green: #35d07f;
+    --color-signal-amber: #ffb020;
+    --color-signal-red: #ff4d4d;
+    --font-sans: "Archivo", system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+    --ring-focus: 0 0 0 3px rgba(255, 106, 0, 0.35);
+    --glow-cta-hover: 0 0 24px -4px rgba(255, 106, 0, 0.45);
+  }
+
+  * { box-sizing: border-box; }
+  html { color-scheme: dark; }
+  body {
+    margin: 0;
+    background: var(--color-carbon-950);
+    color: var(--color-paper-50);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  ::selection { background: var(--color-torch-500); color: var(--color-carbon-950); }
+
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 72px 0; border-bottom: 1px solid var(--color-steel-700); }
+  section:last-child { border-bottom: none; }
+
+  .meta-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-steel-400);
+    display: block;
+    margin-bottom: 12px;
+  }
+  h1, h2, h3 { font-family: var(--font-sans); margin: 0; }
+  .h2 { font-size: 2.25rem; line-height: 1.15; font-weight: 600; margin-bottom: 40px; }
+  .data { font-family: var(--font-mono); }
+
+  /* ---- Top nav ---- */
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--color-carbon-950);
+    border-bottom: 1px solid var(--color-steel-700);
+  }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .wordmark { font-weight: 700; font-size: 1.05rem; letter-spacing: -0.01em; }
+  .wordmark span { color: var(--color-torch-500); }
+  nav a { color: var(--color-steel-300); text-decoration: none; font-size: 0.875rem; margin-left: 28px; }
+  nav a:hover { color: var(--color-paper-50); }
+
+  /* ---- Hero ---- */
+  .hero { padding-top: 64px; padding-bottom: 96px; }
+  .hero-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 64px; align-items: start; }
+  .hero-panel {
+    position: relative;
+    border: 1px solid var(--color-steel-700);
+    padding: 24px;
+  }
+  .corner { position: absolute; width: 14px; height: 14px; border: 2px solid var(--color-torch-500); }
+  .corner.tl { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+  .corner.br { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+  h1.display {
+    font-size: 3.4rem;
+    line-height: 1.05;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 20px;
+    max-width: 13ch;
+  }
+  .hero-lede { font-size: 1.125rem; color: var(--color-steel-300); max-width: 46ch; margin-bottom: 32px; }
+
+  .dimline { display: flex; align-items: center; gap: 10px; color: var(--color-torch-500); margin-bottom: 10px; }
+  .dimline .rule { flex: 1; height: 1px; background: var(--color-torch-500); }
+  .data-display { font-family: var(--font-mono); font-size: 3rem; font-weight: 600; color: var(--color-readout-400); line-height: 1; }
+
+  .chip-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+  .chip {
+    font-family: var(--font-mono); font-size: 0.8125rem; padding: 6px 10px;
+    border: 1px solid var(--color-steel-700); color: var(--color-steel-300);
+  }
+
+  /* ---- Buttons ---- */
+  .btn-row { display: flex; align-items: center; gap: 24px; margin-top: 32px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    height: 44px; padding: 0 20px; font-family: var(--font-sans); font-weight: 600; font-size: 0.9375rem;
+    border-radius: 2px; cursor: pointer; border: 1px solid transparent; transition: all 120ms cubic-bezier(.2,0,0,1);
+  }
+  .btn-primary { background: var(--color-torch-500); color: var(--color-carbon-950); }
+  .btn-primary:hover { background: var(--color-torch-600); box-shadow: var(--glow-cta-hover); }
+  .btn-secondary { background: transparent; color: var(--color-paper-50); border-color: var(--color-steel-700); }
+  .btn-secondary:hover { border-color: var(--color-steel-600); background: var(--color-steel-900); }
+  .btn:focus-visible { outline: none; box-shadow: var(--ring-focus); }
+  .link { color: var(--color-torch-400); text-decoration: none; font-size: 0.9375rem; }
+  .link:hover { text-decoration: underline; }
+
+  /* ---- Color swatches ---- */
+  .swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1px; background: var(--color-steel-700); border: 1px solid var(--color-steel-700); }
+  .swatch { background: var(--color-carbon-950); padding: 20px; }
+  .swatch .box { height: 56px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.08); }
+  .swatch .name { font-family: var(--font-mono); font-size: 0.8125rem; }
+  .swatch .hex { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-steel-400); }
+
+  /* ---- Type scale ---- */
+  .type-row { display: flex; align-items: baseline; gap: 32px; padding: 20px 0; border-bottom: 1px solid var(--color-steel-700); }
+  .type-row:last-child { border-bottom: none; }
+  .type-row .label { width: 130px; flex-shrink: 0; font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-steel-400); }
+  .t-display { font-size: 4.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
+  .t-h1 { font-size: 3rem; font-weight: 700; letter-spacing: -0.01em; line-height: 1.05; }
+  .t-h2 { font-size: 2.25rem; font-weight: 600; line-height: 1.15; }
+  .t-h3 { font-size: 1.375rem; font-weight: 600; }
+  .t-lead { font-size: 1.125rem; color: var(--color-steel-300); }
+  .t-body { font-size: 1rem; }
+  .t-datalg { font-family: var(--font-mono); font-size: 2rem; font-weight: 600; color: var(--color-readout-400); }
+  .t-label { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-steel-400); }
+
+  /* ---- Capacidades grid ---- */
+  .cap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--color-steel-700); border: 1px solid var(--color-steel-700); }
+  .cap-card { background: var(--color-steel-900); padding: 24px; transition: border-color 120ms; }
+  .cap-card:hover { background: var(--color-steel-800); }
+  .cap-card .num { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-steel-400); }
+  .cap-card h3 { font-size: 1.375rem; font-weight: 600; margin: 10px 0 16px; }
+  .cap-card ul { list-style: none; font-family: var(--font-mono); font-size: 0.9375rem; color: var(--color-steel-300); margin: 0 0 20px; padding: 0; }
+  .cap-card ul li { padding: 3px 0; }
+
+  /* ---- Badges ---- */
+  .badge-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+  .badge {
+    display: inline-flex; align-items: baseline; gap: 8px; padding: 7px 12px;
+    background: var(--color-readout-950); border: 1px solid rgba(51,225,216,0.2);
+  }
+  .badge .l { font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-steel-400); }
+  .badge .v { font-family: var(--font-mono); font-size: 0.9375rem; color: var(--color-readout-400); }
+  .status { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.875rem; color: var(--color-steel-300); }
+  .dot { width: 7px; height: 7px; border-radius: 999px; }
+  .dot.green { background: var(--color-signal-green); }
+  .dot.amber { background: var(--color-signal-amber); }
+  .dot.red { background: var(--color-signal-red); }
+
+  /* ---- Table ---- */
+  table { width: 100%; border-collapse: collapse; text-align: left; }
+  thead th { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-steel-400); padding: 12px 16px 12px 0; border-bottom: 1px solid var(--color-steel-700); }
+  tbody td { font-family: var(--font-mono); font-size: 0.9375rem; padding: 14px 16px 14px 0; border-bottom: 1px solid var(--color-steel-700); }
+  tbody tr:hover { background: var(--color-steel-900); }
+  tbody td.model { font-family: var(--font-sans); font-weight: 500; }
+  tbody td.muted { color: var(--color-steel-300); font-family: var(--font-sans); }
+
+  /* ---- Form ---- */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 640px; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-steel-400); }
+  .field select, .field input {
+    height: 44px; padding: 0 12px; background: var(--color-carbon-900); border: 1px solid var(--color-steel-700);
+    color: var(--color-paper-50); font-family: var(--font-sans); font-size: 0.9375rem; border-radius: 2px;
+  }
+  .field select:focus, .field input:focus { outline: none; border-color: var(--color-torch-500); box-shadow: var(--ring-focus); }
+
+  /* ---- Footer ---- */
+  footer { background: var(--color-carbon-900); }
+  .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 32px; padding: 56px 0 32px; }
+  .foot-grid h4 { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-steel-400); margin: 0 0 16px; }
+  .foot-grid a { display: block; color: var(--color-steel-300); text-decoration: none; font-size: 0.9375rem; padding: 4px 0; }
+  .foot-grid a:hover { color: var(--color-paper-50); }
+  .foot-bottom { display: flex; justify-content: space-between; padding: 24px 0; border-top: 1px solid var(--color-steel-700); font-size: 0.8125rem; color: var(--color-steel-400); }
+
+  @media (max-width: 900px) {
+    .hero-grid, .cap-grid, .form-grid, .foot-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="wordmark">VEKTOR<span>·</span>PRECISION CNC</div>
+    <nav>
+      <a href="#capacidades">Capacidades</a>
+      <a href="#maquinas">Máquinas</a>
+      <a href="#cotizacion">Cotización</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap hero">
+  <div class="hero-grid">
+    <div>
+      <span class="meta-label">Saltillo, Coahuila — automotriz &amp; nearshoring</span>
+      <h1 class="display">Maquinados que entran en tolerancia. Punto.</h1>
+      <p class="hero-lede">Fresado y torneado CNC de precisión, shims a medida y ensambles listos para instalar — para plantas que no tienen margen para una pieza fuera de spec.</p>
+      <div class="chip-row">
+        <span class="chip">63 HRC máx.</span>
+        <span class="chip">Mazak · Okuma</span>
+        <span class="chip">D2 · H13 · Vanadis</span>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary">Solicitar cotización</button>
+        <a href="#capacidades" class="link">Ver capacidades</a>
+      </div>
+    </div>
+    <div class="hero-panel">
+      <span class="corner tl"></span>
+      <span class="corner br"></span>
+      <div class="dimline"><span>⊢</span><span class="rule"></span><span>⊣</span></div>
+      <div class="data-display">±0.001″</div>
+      <div class="t-label" style="margin-top:8px;">Tolerancia mínima garantizada</div>
+      <div style="margin-top:28px; padding-top:20px; border-top:1px solid var(--color-steel-700);">
+        <div class="status" style="margin-bottom:10px;"><span class="dot green"></span>Cotización en &lt;24 h</div>
+        <div class="status"><span class="dot green"></span>3 centros disponibles esta semana</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<section id="colores">
+  <div class="wrap">
+    <span class="meta-label">01 — Tokens</span>
+    <h2 class="h2">Color</h2>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="box" style="background:var(--color-carbon-950)"></div><div class="name">carbon-950</div><div class="hex">#09090B</div></div>
+      <div class="swatch"><div class="box" style="background:var(--color-steel-900)"></div><div class="name">steel-900</div><div class="hex">#14181D</div></div>
+      <div class="swatch"><div class="box" style="background:var(--color-steel-700)"></div><div class="name">steel-700</div><div class="hex">#2B3138</div></div>
+      <div class="swatch"><div class="box" style="background:var(--color-steel-400)"></div><div class="name">steel-400</div><div class="hex">#8B93A1</div></div>
+      <div class="swatch"><div class="box" style="background:var(--color-paper-50)"></div><div class="name">paper-50</div><div class="hex">#F4F5F7</div></div>
+      <div class="swatch"><div class="box" style="background:var(--color-torch-500)"></div><div class="name">torch-500</div><div class="hex">#FF6A00 — acción</div></div>
+      <div class="swatch"><div class="box" style="background:var(--color-readout-400)"></div><div class="name">readout-400</div><div class="hex">#33E1D8 — dato</div></div>
+      <div class="swatch"><div class="box" style="background:var(--color-signal-green)"></div><div class="name">signal-green</div><div class="hex">#35D07F</div></div>
+      <div class="swatch"><div class="box" style="background:var(--color-signal-amber)"></div><div class="name">signal-amber</div><div class="hex">#FFB020</div></div>
+      <div class="swatch"><div class="box" style="background:var(--color-signal-red)"></div><div class="name">signal-red</div><div class="hex">#FF4D4D</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="tipografia">
+  <div class="wrap">
+    <span class="meta-label">02 — Tokens</span>
+    <h2 class="h2">Tipografía</h2>
+    <div class="type-row"><span class="label">text-display</span><span class="t-display">±0.001″</span></div>
+    <div class="type-row"><span class="label">text-h1</span><span class="t-h1">Precisión que se cotiza sola</span></div>
+    <div class="type-row"><span class="label">text-h2</span><span class="t-h2" style="margin:0;">Capacidades del taller</span></div>
+    <div class="type-row"><span class="label">text-h3</span><span class="t-h3">Fresado CNC vertical</span></div>
+    <div class="type-row"><span class="label">text-lead</span><span class="t-lead">Fresado, torneado, shims a medida y ensambles para automotriz y nearshoring.</span></div>
+    <div class="type-row"><span class="label">text-body</span><span class="t-body">Cuerpo de párrafo estándar, Archivo 400, para descripciones de proceso.</span></div>
+    <div class="type-row"><span class="label">text-data-lg</span><span class="t-datalg">63 HRC</span></div>
+    <div class="type-row"><span class="label">text-label</span><span class="t-label">Material · dureza · tolerancia</span></div>
+  </div>
+</section>
+
+<section id="capacidades">
+  <div class="wrap">
+    <span class="meta-label">03 — Componentes</span>
+    <h2 class="h2">Capacidades</h2>
+    <div class="cap-grid">
+      <div class="cap-card">
+        <span class="num">01</span>
+        <h3>Fresado CNC vertical</h3>
+        <ul><li>Mesa hasta 2000 × 800 mm</li><li>Tolerancia ±0.001″</li></ul>
+        <a href="#" class="link">Ver ficha</a>
+      </div>
+      <div class="cap-card">
+        <span class="num">02</span>
+        <h3>Torneado de precisión</h3>
+        <ul><li>Hasta ⌀14″</li><li>Mazak · Okuma</li></ul>
+        <a href="#" class="link">Ver ficha</a>
+      </div>
+      <div class="cap-card">
+        <span class="num">03</span>
+        <h3>Shims / lainas a medida</h3>
+        <ul><li>Hasta 63 HRC</li><li>D2 · H13 · Vanadis</li></ul>
+        <a href="#" class="link">Ver ficha</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="badges">
+  <div class="wrap">
+    <span class="meta-label">04 — Componentes</span>
+    <h2 class="h2">Badges &amp; botones</h2>
+    <div class="badge-row" style="margin-bottom:36px;">
+      <span class="badge"><span class="l">Tolerancia</span><span class="v">±0.0005″</span></span>
+      <span class="badge"><span class="l">Dureza</span><span class="v">63 HRC</span></span>
+      <span class="badge"><span class="l">Entrega</span><span class="v">&lt;24 h</span></span>
+      <span class="status"><span class="dot green"></span>Disponible</span>
+      <span class="status"><span class="dot amber"></span>En cola (2 d)</span>
+      <span class="status"><span class="dot red"></span>Fuera de tolerancia</span>
+    </div>
+    <div class="btn-row" style="margin-top:0;">
+      <button class="btn btn-primary">Solicitar cotización</button>
+      <button class="btn btn-secondary">Descargar hoja de tolerancias</button>
+      <a href="#" class="link">Ver ficha de máquina</a>
+    </div>
+  </div>
+</section>
+
+<section id="maquinas">
+  <div class="wrap">
+    <span class="meta-label">05 — Componentes</span>
+    <h2 class="h2">Ficha de capacidad de máquina</h2>
+    <table>
+      <thead>
+        <tr><th>Modelo</th><th>Tipo</th><th>Capacidad máx.</th><th>Tolerancia</th><th>Estado</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="model">Mazak VTC-800</td>
+          <td class="muted">Fresado 5X</td>
+          <td>2000 × 800 mm</td>
+          <td>±0.001″</td>
+          <td><span class="status"><span class="dot green"></span>Disponible</span></td>
+        </tr>
+        <tr>
+          <td class="model">Okuma LB3000</td>
+          <td class="muted">Torneado</td>
+          <td>⌀356 × 1000 mm</td>
+          <td>±0.0005″</td>
+          <td><span class="status"><span class="dot green"></span>Disponible</span></td>
+        </tr>
+        <tr>
+          <td class="model">Mazak QT-Nexus</td>
+          <td class="muted">Torneado</td>
+          <td>⌀400 × 610 mm</td>
+          <td>±0.001″</td>
+          <td><span class="status"><span class="dot amber"></span>En cola (2 d)</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="cotizacion">
+  <div class="wrap">
+    <span class="meta-label">06 — Componentes</span>
+    <h2 class="h2">Formulario de cotización</h2>
+    <div class="form-grid">
+      <div class="field">
+        <label>Material</label>
+        <select><option>D2</option><option>H13</option><option>Vanadis</option><option>Otro</option></select>
+      </div>
+      <div class="field">
+        <label>Tolerancia requerida</label>
+        <input type="text" placeholder="±0.001″" />
+      </div>
+      <div class="field">
+        <label>Cantidad</label>
+        <input type="text" placeholder="Ej. 50 piezas" />
+      </div>
+      <div class="field">
+        <label>Fecha de entrega deseada</label>
+        <input type="text" placeholder="DD/MM/AAAA" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="wordmark" style="margin-bottom:8px;">VEKTOR<span>·</span>PRECISION CNC</div>
+        <p style="color:var(--color-steel-400); font-size:0.9375rem; max-width:34ch;">Saltillo, Coahuila, México. Maquinados de precisión para automotriz y nearshoring.</p>
+      </div>
+      <div>
+        <h4>Capacidades</h4>
+        <a href="#">Fresado CNC</a>
+        <a href="#">Torneado CNC</a>
+        <a href="#">Shims / lainas</a>
+        <a href="#">Ensambles</a>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <a href="mailto:cotizaciones@vektorcnc.mx">cotizaciones@vektorcnc.mx</a>
+        <a href="tel:+528440000000">+52 844 000 0000</a>
+        <a href="#">Parque Industrial, Saltillo</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© Vektor Precision CNC</span>
+      <span>ISO 9001 en proceso</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
