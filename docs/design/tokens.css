@@ -1,0 +1,118 @@
+/*
+ * Vektor Precision CNC — design tokens (Tailwind v4)
+ *
+ * Import from app/globals.css:
+ *   @import "tailwindcss";
+ *   @import "../docs/design/tokens.css";
+ *
+ * Tailwind v4 turns every var below into utilities automatically:
+ *   --color-torch-500   -> bg-torch-500 / text-torch-500 / border-torch-500
+ *   --font-mono          -> font-mono
+ *   --text-display        -> text-display (font-size + line-height pair)
+ *   --radius-chamfer      -> rounded-chamfer
+ *   --spacing-panel       -> p-panel / gap-panel / etc.
+ * See 02-tokens.md for rationale behind each value.
+ */
+
+@theme {
+  /* Color — surface */
+  --color-carbon-950: #09090b;
+  --color-carbon-900: #0f1013;
+  --color-steel-900: #14181d;
+  --color-steel-800: #1e242b;
+  --color-steel-700: #2b3138;
+  --color-steel-600: #454d57;
+  --color-steel-400: #8b93a1;
+  --color-steel-300: #aeb4be;
+  --color-paper-50: #f4f5f7;
+
+  /* Color — action accent (torch): the only clickable-thing color */
+  --color-torch-950: #2b1200;
+  --color-torch-600: #e85d00;
+  --color-torch-500: #ff6a00;
+  --color-torch-400: #ff8a33;
+
+  /* Color — data accent (readout): the only reported-value color */
+  --color-readout-950: #062523;
+  --color-readout-400: #33e1d8;
+  --color-readout-300: #6bebe4;
+
+  /* Color — signal (status only, never decorative) */
+  --color-signal-green: #35d07f;
+  --color-signal-amber: #ffb020;
+  --color-signal-red: #ff4d4d;
+
+  /* Typography */
+  --font-sans: "Archivo", "Archivo Fallback", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", "IBM Plex Mono Fallback", ui-monospace, monospace;
+
+  --text-display: 4.5rem;
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.02em;
+  --text-display--font-weight: 700;
+
+  --text-h1: 3rem;
+  --text-h1--line-height: 1.05;
+  --text-h1--letter-spacing: -0.01em;
+  --text-h1--font-weight: 700;
+
+  --text-h2: 2.25rem;
+  --text-h2--line-height: 1.15;
+  --text-h2--font-weight: 600;
+
+  --text-h3: 1.375rem;
+  --text-h3--line-height: 1.3;
+  --text-h3--font-weight: 600;
+
+  --text-lead: 1.125rem;
+  --text-lead--line-height: 1.6;
+
+  --text-data-lg: 2rem;
+  --text-data-lg--line-height: 1;
+  --text-data-lg--font-weight: 600;
+
+  --text-data: 1rem;
+  --text-data--line-height: 1.4;
+  --text-data--font-weight: 500;
+
+  --text-label: 0.75rem;
+  --text-label--line-height: 1;
+  --text-label--letter-spacing: 0.06em;
+  --text-label--font-weight: 500;
+
+  /* Spacing (semantic additions on top of Tailwind's default scale) */
+  --spacing-panel: 1.5rem;
+  --spacing-panel-tight: 1rem;
+
+  /* Radius */
+  --radius-none: 0;
+  --radius-chamfer: 0.125rem;
+  --radius-pill: 999px;
+
+  /* Motion */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --default-transition-timing-function: var(--ease-standard);
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-hero: 600ms;
+
+  /* Breakpoints */
+  --breakpoint-table: 56rem;
+}
+
+/* Composite tokens Tailwind can't express as plain @theme vars */
+:root {
+  --ring-focus: 0 0 0 3px rgba(255, 106, 0, 0.35);
+  --glow-cta-hover: 0 0 24px -4px rgba(255, 106, 0, 0.45);
+  --border-hairline: 1px solid var(--color-steel-700);
+  --border-hairline-hover: 1px solid var(--color-steel-600);
+  --border-accent: 1px solid var(--color-torch-500);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-hero: 0ms;
+  }
+}
