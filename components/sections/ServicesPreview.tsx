@@ -6,9 +6,6 @@ export function ServicesPreview({ services }: { services: Service[] }) {
   return (
     <section className="border-b border-steel-700">
       <div className="mx-auto max-w-[1280px] px-6 py-20">
-        <span className="mb-3 block font-mono text-xs uppercase tracking-[0.06em] text-steel-400">
-          Capacidades
-        </span>
         <h2 className="mb-10 text-[2.25rem] font-semibold leading-[1.15]">
           Lo que sale del taller cada semana
         </h2>
@@ -29,7 +26,7 @@ export function ServicesPreview({ services }: { services: Service[] }) {
               </ul>
               <Link
                 href={`/capacidades#${service.id}`}
-                className="text-sm text-torch-400 hover:underline"
+                className="text-sm text-torch-400 hover:underline focus-visible:outline-none focus-visible:shadow-[var(--ring-focus)]"
               >
                 Ver ficha
               </Link>

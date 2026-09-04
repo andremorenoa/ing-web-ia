@@ -23,9 +23,6 @@ export default function CapacidadesPage() {
             className="object-cover"
           />
         </div>
-        <span className="mb-3 block font-mono text-xs uppercase tracking-[0.06em] text-steel-400">
-          Catálogo técnico
-        </span>
         <h1 className="max-w-[24ch] text-[3rem] font-bold leading-[1.05] tracking-[-0.01em]">
           Capacidades y servicios
         </h1>

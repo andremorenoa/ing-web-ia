@@ -20,9 +20,6 @@ export function QualityMetrology() {
   return (
     <section className="bg-carbon-900">
       <div className="mx-auto max-w-[1280px] px-6 py-20">
-        <span className="mb-3 block font-mono text-xs uppercase tracking-[0.06em] text-steel-400">
-          Control de calidad
-        </span>
         <h2 className="mb-10 max-w-[28ch] text-[2.25rem] font-semibold leading-[1.15]">
           ISO 9001 en proceso de certificación
         </h2>

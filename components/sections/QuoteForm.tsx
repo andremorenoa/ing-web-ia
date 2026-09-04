@@ -8,9 +8,6 @@ export function QuoteForm() {
   return (
     <section id="cotizacion" className="bg-carbon-900">
       <div className="mx-auto max-w-[1280px] px-6 py-20">
-        <span className="mb-3 block font-mono text-xs uppercase tracking-[0.06em] text-steel-400">
-          Cotización
-        </span>
         <h2 className="mb-10 text-[2.25rem] font-semibold leading-[1.15]">
           Solicitar cotización
         </h2>

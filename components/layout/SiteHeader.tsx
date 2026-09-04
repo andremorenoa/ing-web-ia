@@ -18,12 +18,12 @@ export function SiteHeader() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm text-steel-300 hover:text-paper-50"
+              className="text-sm text-steel-300 hover:text-paper-50 focus-visible:outline-none focus-visible:shadow-[var(--ring-focus)]"
             >
               {link.label}
             </Link>
           ))}
-          <LinkButton href="/#cotizacion" variant="primary" className="h-9 px-4 text-sm">
+          <LinkButton href="/#cotizacion" variant="secondary" className="h-9 px-4 text-sm">
             Solicitar cotización
           </LinkButton>
         </nav>

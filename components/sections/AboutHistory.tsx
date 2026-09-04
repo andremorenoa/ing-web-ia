@@ -2,9 +2,6 @@ export function AboutHistory() {
   return (
     <section className="border-b border-steel-700">
       <div className="mx-auto max-w-[1280px] px-6 py-20">
-        <span className="mb-3 block font-mono text-xs uppercase tracking-[0.06em] text-steel-400">
-          Historia
-        </span>
         <h1 className="mb-8 max-w-[20ch] text-[3rem] font-bold leading-[1.05] tracking-[-0.01em]">
           Un taller que creció con el corredor automotriz de Saltillo
         </h1>

@@ -28,7 +28,7 @@ export function SiteFooter() {
               <a
                 key={link.label}
                 href={link.href}
-                className="block py-1 text-[0.9375rem] text-steel-300 hover:text-paper-50"
+                className="block py-1 text-[0.9375rem] text-steel-300 hover:text-paper-50 focus-visible:outline-none focus-visible:shadow-[var(--ring-focus)]"
               >
                 {link.label}
               </a>
@@ -40,13 +40,13 @@ export function SiteFooter() {
             </h4>
             <a
               href={`mailto:${CONTACT.email}`}
-              className="block py-1 text-[0.9375rem] text-steel-300 hover:text-paper-50"
+              className="block py-1 text-[0.9375rem] text-steel-300 hover:text-paper-50 focus-visible:outline-none focus-visible:shadow-[var(--ring-focus)]"
             >
               {CONTACT.email}
             </a>
             <a
               href={CONTACT.phoneHref}
-              className="block py-1 text-[0.9375rem] text-steel-300 hover:text-paper-50"
+              className="block py-1 text-[0.9375rem] text-steel-300 hover:text-paper-50 focus-visible:outline-none focus-visible:shadow-[var(--ring-focus)]"
             >
               {CONTACT.phone}
             </a>

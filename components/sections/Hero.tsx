@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { LinkButton } from "@/components/ui/Button";
+import { CapabilityChip } from "@/components/ui/CapabilityChip";
 import { CornerTicks } from "@/components/ui/CornerTicks";
 import { DimensionLine } from "@/components/ui/DimensionLine";
 import { HERO_METRICS } from "@/lib/content";
@@ -20,10 +21,7 @@ export function Hero({ image }: { image: StockImage }) {
       <div className="relative mx-auto max-w-[1280px] px-6 pb-24 pt-16">
         <div className="grid gap-16 lg:grid-cols-[1.3fr_1fr] lg:items-start">
           <div>
-            <span className="mb-3 block font-mono text-xs uppercase tracking-[0.06em] text-steel-400">
-              Saltillo, Coahuila — automotriz &amp; nearshoring
-            </span>
-            <h1 className="mb-5 max-w-[13ch] text-[3.4rem] font-bold leading-[1.05] tracking-[-0.01em]">
+            <h1 className="mb-5 max-w-[13ch] text-[3rem] font-bold leading-[1.05] tracking-[-0.01em]">
               Maquinados que entran en tolerancia. Punto.
             </h1>
             <p className="mb-8 max-w-[46ch] text-lg text-steel-300">
@@ -32,12 +30,9 @@ export function Hero({ image }: { image: StockImage }) {
             </p>
             <div className="mb-8 flex flex-wrap gap-3">
               {HERO_METRICS.map((metric) => (
-                <span
-                  key={metric.label}
-                  className="border border-steel-700 px-2.5 py-1.5 font-mono text-[0.8125rem] text-steel-300"
-                >
+                <CapabilityChip key={metric.label}>
                   {metric.value} <span className="text-steel-400">· {metric.label}</span>
-                </span>
+                </CapabilityChip>
               ))}
             </div>
             <div className="flex flex-wrap items-center gap-6">
