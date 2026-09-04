@@ -12,16 +12,28 @@ export function CategorySection({ group }: { group: CategoryGroup }) {
         <table className="w-full border-collapse text-left">
           <thead>
             <tr className="border-b border-steel-700">
-              <th className="py-3 pr-4 font-mono text-xs uppercase tracking-[0.06em] text-steel-400">
+              <th
+                scope="col"
+                className="py-3 pr-4 font-mono text-xs uppercase tracking-[0.06em] text-steel-400"
+              >
                 Proceso
               </th>
-              <th className="py-3 pr-4 font-mono text-xs uppercase tracking-[0.06em] text-steel-400">
+              <th
+                scope="col"
+                className="py-3 pr-4 font-mono text-xs uppercase tracking-[0.06em] text-steel-400"
+              >
                 Materiales
               </th>
-              <th className="py-3 pr-4 font-mono text-xs uppercase tracking-[0.06em] text-steel-400">
+              <th
+                scope="col"
+                className="py-3 pr-4 font-mono text-xs uppercase tracking-[0.06em] text-steel-400"
+              >
                 Especificaciones
               </th>
-              <th className="py-3 font-mono text-xs uppercase tracking-[0.06em] text-steel-400">
+              <th
+                scope="col"
+                className="py-3 font-mono text-xs uppercase tracking-[0.06em] text-steel-400"
+              >
                 Entrega
               </th>
             </tr>
