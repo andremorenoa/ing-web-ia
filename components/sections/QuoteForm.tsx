@@ -26,27 +26,48 @@ export function QuoteForm() {
         <h2 className="mb-10 text-[2.25rem] font-semibold leading-[1.15]">
           Solicitar cotización
         </h2>
-        <form className="grid max-w-[720px] gap-5 sm:grid-cols-2">
-          <label className="flex flex-col gap-1.5">
-            <span className={LABEL_CLASSES}>Proceso requerido</span>
-            <select name="process" required className={FIELD_CLASSES}>
-              {PROCESS_OPTIONS.map((process) => (
-                <option key={process}>{process}</option>
-              ))}
-            </select>
-          </label>
-          <label className="flex flex-col gap-1.5">
-            <span className={LABEL_CLASSES}>Tolerancia requerida</span>
-            <input
-              name="tolerance"
-              type="text"
-              placeholder="±0.001″"
-              required
-              className={FIELD_CLASSES}
-            />
-          </label>
+        <form className="mx-auto max-w-3xl rounded-xl border border-zinc-800 bg-zinc-900/60 p-8">
+          <div className="grid gap-5 sm:grid-cols-2">
+            <label className="flex flex-col gap-1.5">
+              <span className={LABEL_CLASSES}>Proceso requerido</span>
+              <select name="process" required className={FIELD_CLASSES}>
+                {PROCESS_OPTIONS.map((process) => (
+                  <option key={process}>{process}</option>
+                ))}
+              </select>
+            </label>
+            <label className="flex flex-col gap-1.5">
+              <span className={LABEL_CLASSES}>Tolerancia requerida</span>
+              <input
+                name="tolerance"
+                type="text"
+                placeholder="±0.001″"
+                required
+                className={FIELD_CLASSES}
+              />
+            </label>
+            <label className="flex flex-col gap-1.5">
+              <span className={LABEL_CLASSES}>Volumen estimado</span>
+              <input
+                name="quantity"
+                type="text"
+                placeholder="Ej. 50 piezas"
+                required
+                className={FIELD_CLASSES}
+              />
+            </label>
+            <label className="flex flex-col gap-1.5">
+              <span className={LABEL_CLASSES}>Fecha límite de entrega</span>
+              <input
+                name="dueDate"
+                type="text"
+                placeholder="DD/MM/AAAA"
+                className={FIELD_CLASSES}
+              />
+            </label>
+          </div>
 
-          <fieldset className="sm:col-span-2">
+          <fieldset className="mt-5">
             <legend className={LABEL_CLASSES}>Materiales / aleaciones</legend>
             <div className="mt-2 flex flex-wrap gap-2">
               {MATERIAL_OPTIONS.map((material) => (
@@ -61,22 +82,7 @@ export function QuoteForm() {
             </div>
           </fieldset>
 
-          <label className="flex flex-col gap-1.5">
-            <span className={LABEL_CLASSES}>Volumen estimado</span>
-            <input
-              name="quantity"
-              type="text"
-              placeholder="Ej. 50 piezas"
-              required
-              className={FIELD_CLASSES}
-            />
-          </label>
-          <label className="flex flex-col gap-1.5">
-            <span className={LABEL_CLASSES}>Fecha límite de entrega</span>
-            <input name="dueDate" type="text" placeholder="DD/MM/AAAA" className={FIELD_CLASSES} />
-          </label>
-
-          <div className="sm:col-span-2">
+          <div className="mt-5">
             <span className={LABEL_CLASSES}>Planos CAD</span>
             <div
               role="button"
@@ -98,8 +104,8 @@ export function QuoteForm() {
                   fileInputRef.current?.click();
                 }
               }}
-              className={`mt-1.5 flex cursor-pointer flex-col items-center justify-center gap-1 rounded-chamfer border border-dashed px-6 py-10 text-center transition-colors ${
-                isDragActive ? "border-torch-500 bg-torch-950/40" : "border-steel-700"
+              className={`mt-1.5 flex cursor-pointer flex-col items-center justify-center gap-1 rounded-lg border-2 border-dashed p-6 text-center transition-colors ${
+                isDragActive ? "border-amber-500 bg-amber-500/10" : "border-zinc-700 hover:border-amber-500"
               }`}
             >
               <input
@@ -127,7 +133,7 @@ export function QuoteForm() {
             </div>
           </div>
 
-          <div className="sm:col-span-2">
+          <div className="mt-6">
             <Button type="submit" variant="primary">
               Enviar solicitud
             </Button>

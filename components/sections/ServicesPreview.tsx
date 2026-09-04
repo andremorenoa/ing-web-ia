@@ -1,7 +1,9 @@
+import Image from "next/image";
 import Link from "next/link";
 import { LinkButton } from "@/components/ui/Button";
 import { CapabilityChip } from "@/components/ui/CapabilityChip";
 import { DataBadge } from "@/components/ui/DataBadge";
+import { SERVICE_CARD_IMAGES } from "@/lib/images";
 import type { Service } from "@/lib/services";
 
 export function ServicesPreview({ services }: { services: Service[] }) {
@@ -12,11 +14,25 @@ export function ServicesPreview({ services }: { services: Service[] }) {
           Lo que sale del taller cada semana
         </h2>
         <div className="grid gap-px border border-steel-700 bg-steel-700 lg:grid-cols-3">
-          {services.map((service, index) => (
+          {services.map((service, index) => {
+            const cardImage = SERVICE_CARD_IMAGES[service.id];
+            return (
             <article
               key={service.id}
-              className="bg-steel-900 p-6 transition-colors hover:bg-steel-800 hover:ring-1 hover:ring-inset hover:ring-torch-500/40"
+              className="bg-steel-900 transition-colors hover:bg-steel-800 hover:ring-1 hover:ring-inset hover:ring-torch-500/40"
             >
+              {cardImage && (
+                <div className="relative aspect-video border-b border-steel-700">
+                  <Image
+                    src={cardImage.src}
+                    alt={cardImage.alt}
+                    fill
+                    sizes="(min-width: 1024px) 33vw, 100vw"
+                    className="object-cover"
+                  />
+                </div>
+              )}
+              <div className="p-6">
               <span className="font-mono text-xs text-steel-400">
                 {String(index + 1).padStart(2, "0")}
               </span>
@@ -46,8 +62,10 @@ export function ServicesPreview({ services }: { services: Service[] }) {
                   Cotizar este proceso
                 </LinkButton>
               </div>
+              </div>
             </article>
-          ))}
+            );
+          })}
         </div>
         <div className="mt-10">
           <LinkButton href="/capacidades" variant="secondary">
