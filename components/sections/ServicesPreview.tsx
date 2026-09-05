@@ -3,7 +3,7 @@ import Link from "next/link";
 import { LinkButton } from "@/components/ui/Button";
 import { CapabilityChip } from "@/components/ui/CapabilityChip";
 import { DataBadge } from "@/components/ui/DataBadge";
-import { SERVICE_CARD_IMAGES } from "@/lib/images";
+import { IMAGES, SERVICE_CARD_IMAGES } from "@/lib/images";
 import { SERVICE_ID_TO_PROCESS } from "@/lib/quote";
 import type { Service } from "@/lib/services";
 
@@ -72,20 +72,27 @@ export function ServicesPreview({ services }: { services: Service[] }) {
             </article>
             );
           })}
-          <article className="flex flex-col justify-between bg-steel-900 p-6 ring-1 ring-inset ring-torch-500/30 transition-colors hover:bg-steel-800">
-            <div>
+          <article className="bg-steel-900 ring-1 ring-inset ring-torch-500/30 transition-colors hover:bg-steel-800">
+            <div className="relative aspect-video border-b border-steel-700">
+              <Image
+                src={IMAGES.specialProjects.src}
+                alt={IMAGES.specialProjects.alt}
+                fill
+                sizes="(min-width: 1024px) 33vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="p-6">
               <span className="font-mono text-xs text-steel-400">
                 {String(services.length + 1).padStart(2, "0")}
               </span>
               <h3 className="mb-2 mt-2 text-[1.375rem] font-semibold">
                 Proyectos Especiales / Desarrollo a Medida
               </h3>
-              <p className="text-sm text-steel-400">
+              <p className="mb-5 text-sm text-steel-400">
                 ¿Tu pieza no encaja en ninguna categoría de arriba? Diseñamos el proceso a la
                 medida de tu especificación técnica, desde prototipo hasta producción.
               </p>
-            </div>
-            <div className="mt-6">
               <LinkButton href="/#cotizacion" variant="primary" className="w-full justify-center">
                 Cotizar proyecto especial
               </LinkButton>
