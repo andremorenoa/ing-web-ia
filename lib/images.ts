@@ -11,6 +11,7 @@ export const IMAGES: {
   plantOverview: StockImage;
   metrology: StockImage;
   capabilitiesHeader: StockImage;
+  specialProjects: StockImage;
 } = {
   heroMachining: {
     src: "/images/hero-machining.webp",
@@ -50,6 +51,16 @@ export const IMAGES: {
     credit: {
       photographer: "Connor Lucock",
       url: "https://www.pexels.com/@connor-lucock-259838/",
+    },
+  },
+  specialProjects: {
+    src: "/images/service-special-projects.webp",
+    alt: "Ingeniero revisando un diseño técnico en AutoCAD en pantalla",
+    width: 1000,
+    height: 667,
+    credit: {
+      photographer: "ThisIsEngineering",
+      url: "https://www.pexels.com/@thisisengineering",
     },
   },
 };
