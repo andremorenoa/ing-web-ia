@@ -55,9 +55,6 @@ export const IMAGES: {
 };
 
 // Header images for the homepage service cards, keyed by docs/services.csv id.
-// her-001 and her-002 (both "Herramental y Troqueles") intentionally share the
-// same photo — a caliper measuring a machined part reads as "shims / piezas de
-// desgaste" for either. All four URLs verified to resolve before use.
 export const SERVICE_CARD_IMAGES: Record<string, StockImage> = {
   "cnc-001": {
     src: "/images/service-cnc-001.webp",
@@ -74,7 +71,13 @@ export const SERVICE_CARD_IMAGES: Record<string, StockImage> = {
     credit: { photographer: "Connor Lucock", url: "https://www.pexels.com/@connor-lucock-259838/" },
   },
   "her-001": IMAGES.metrology,
-  "her-002": IMAGES.metrology,
+  "her-002": {
+    src: "/images/service-her-002.webp",
+    alt: "Fresa de corte de metal duro en primer plano, representando piezas de desgaste endurecidas",
+    width: 1000,
+    height: 715,
+    credit: { photographer: "Pixabay", url: "https://www.pexels.com/@pixabay" },
+  },
   "est-003": {
     src: "/images/service-est-003.webp",
     alt: "Ensamble de piezas mecánicas de precisión sobre mesa de trabajo",

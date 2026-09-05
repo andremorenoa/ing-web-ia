@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 
@@ -45,8 +47,23 @@ export function LinkButton({
   const combinedClassName = `${BASE_CLASSES} ${VARIANT_CLASSES[variant]} ${className}`;
 
   if (href && (href.startsWith("/") || href.startsWith("#"))) {
+    const hashIndex = href.indexOf("#");
+    const targetId = hashIndex >= 0 ? href.slice(hashIndex + 1) : null;
+
+    function handleClick() {
+      if (!targetId || typeof window === "undefined") return;
+      const url = new URL(href!, window.location.origin);
+      if (url.pathname !== window.location.pathname) return;
+      // Let Link perform its own same-page navigation (which updates
+      // query/hash and keeps useSearchParams reactive); browsers skip
+      // re-scrolling when the hash text itself is unchanged from the
+      // previous click (e.g. a second "Cotizar este proceso" card while
+      // already on #cotizacion), so scroll to the target manually every time.
+      document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
     return (
-      <Link href={href} className={combinedClassName} {...rest}>
+      <Link href={href} onClick={handleClick} className={combinedClassName} {...rest}>
         {children}
       </Link>
     );
