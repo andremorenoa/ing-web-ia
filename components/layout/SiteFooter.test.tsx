@@ -6,9 +6,9 @@ import { CONTACT } from "@/lib/content";
 describe("SiteFooter", () => {
   it("renders the contact email and phone from CONTACT", () => {
     render(<SiteFooter />);
-    expect(screen.getByRole("link", { name: "cotizaciones@vektorcnc.mx" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: CONTACT.email })).toHaveAttribute(
       "href",
-      "mailto:cotizaciones@vektorcnc.mx",
+      `mailto:${CONTACT.email}`,
     );
     expect(screen.getByRole("link", { name: CONTACT.phone })).toHaveAttribute(
       "href",
