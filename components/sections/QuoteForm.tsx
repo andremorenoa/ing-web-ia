@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useRef, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { PROCESS_OPTIONS, isProcessOption } from "@/lib/quote";
@@ -14,11 +14,14 @@ const MATERIAL_OPTIONS = ["D2", "H13", "4140", "6061", "Nylamid", "Acero inoxida
 function QuoteFormFields({ initialProcess }: { initialProcess: string }) {
   const [process, setProcess] = useState(initialProcess);
   // initialProcess comes from the URL's `proceso` param, which can change via a
-  // client-side navigation (clicking another card's CTA) without remounting this
-  // component — resync the select whenever that happens.
-  useEffect(() => {
+  // client-side navigation (clicking another card's CTA) without remounting
+  // this component — resync during render (React's documented pattern for
+  // adjusting state from a changed prop) rather than in an effect.
+  const [prevInitialProcess, setPrevInitialProcess] = useState(initialProcess);
+  if (initialProcess !== prevInitialProcess) {
+    setPrevInitialProcess(initialProcess);
     setProcess(initialProcess);
-  }, [initialProcess]);
+  }
   const [isDragActive, setIsDragActive] = useState(false);
   const [fileNames, setFileNames] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
