@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { ServicesPreview } from "@/components/sections/ServicesPreview";
 import type { Service } from "@/lib/services";
@@ -53,5 +53,15 @@ describe("ServicesPreview", () => {
     render(<ServicesPreview services={FIXTURE_SERVICES} />);
     const ctaLink = screen.getByRole("link", { name: "Cotizar proyecto especial" });
     expect(ctaLink).toHaveAttribute("href", "/#cotizacion");
+  });
+
+  it("gives the special-projects CTA card the same content skeleton (specs, chip, entrega) as the real cards", () => {
+    render(<ServicesPreview services={FIXTURE_SERVICES} />);
+    const heading = screen.getByRole("heading", { name: "Proyectos Especiales / Desarrollo a Medida" });
+    const ctaCard = heading.closest("article");
+    expect(ctaCard).not.toBeNull();
+    const scoped = within(ctaCard as HTMLElement);
+    expect(scoped.getByText(/entrega/i)).toBeInTheDocument();
+    expect(scoped.getByText("Diseño a medida")).toBeInTheDocument();
   });
 });

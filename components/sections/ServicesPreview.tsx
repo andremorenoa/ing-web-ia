@@ -89,10 +89,20 @@ export function ServicesPreview({ services }: { services: Service[] }) {
               <h3 className="mb-2 mt-2 text-[1.375rem] font-semibold">
                 Proyectos Especiales / Desarrollo a Medida
               </h3>
-              <p className="mb-5 text-sm text-steel-400">
+              <p className="mb-4 text-sm text-steel-400">
                 ¿Tu pieza no encaja en ninguna categoría de arriba? Diseñamos el proceso a la
                 medida de tu especificación técnica, desde prototipo hasta producción.
               </p>
+              <ul className="mb-4 space-y-1 font-mono text-[0.9375rem] text-steel-300">
+                <li>Alcance definido contigo</li>
+                <li>Desde prototipo hasta producción</li>
+              </ul>
+              <div className="mb-4 flex flex-wrap gap-2">
+                <CapabilityChip>Diseño a medida</CapabilityChip>
+              </div>
+              <div className="mb-5">
+                <DataBadge label="Entrega" value="A convenir" />
+              </div>
               <LinkButton href="/#cotizacion" variant="primary" className="w-full justify-center">
                 Cotizar proyecto especial
               </LinkButton>

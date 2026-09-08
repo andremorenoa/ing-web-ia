@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useRef, useState } from "react";
+import { Suspense, useRef, useState, useSyncExternalStore, type FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { PROCESS_OPTIONS, isProcessOption } from "@/lib/quote";
@@ -10,6 +10,23 @@ const FIELD_CLASSES =
 const LABEL_CLASSES = "font-mono text-xs uppercase tracking-[0.06em] text-steel-400";
 
 const MATERIAL_OPTIONS = ["D2", "H13", "4140", "6061", "Nylamid", "Acero inoxidable"];
+
+function tomorrowAsDateInputValue(): string {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const year = tomorrow.getFullYear();
+  const month = String(tomorrow.getMonth() + 1).padStart(2, "0");
+  const day = String(tomorrow.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function noExternalUpdates() {
+  return () => {};
+}
+
+function noMinDueDateDuringSsr(): string | undefined {
+  return undefined;
+}
 
 function QuoteFormFields({ initialProcess }: { initialProcess: string }) {
   const [process, setProcess] = useState(initialProcess);
@@ -25,14 +42,51 @@ function QuoteFormFields({ initialProcess }: { initialProcess: string }) {
   const [isDragActive, setIsDragActive] = useState(false);
   const [fileNames, setFileNames] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  // Reads the browser's clock without baking a stale "today" into the
+  // static/server-rendered markup: the server snapshot is always undefined,
+  // so hydration matches, then the real value takes over on the client.
+  const minDueDate = useSyncExternalStore(
+    noExternalUpdates,
+    tomorrowAsDateInputValue,
+    noMinDueDateDuringSsr,
+  );
 
   function handleFiles(files: FileList | null) {
     if (!files || files.length === 0) return;
     setFileNames(Array.from(files).map((file) => file.name));
   }
 
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setStatus("submitting");
+
+    const formData = new FormData(event.currentTarget);
+    const payload = {
+      process: formData.get("process"),
+      tolerance: formData.get("tolerance"),
+      quantity: formData.get("quantity"),
+      dueDate: formData.get("dueDate") ?? "",
+      materials: formData.getAll("materials"),
+    };
+
+    try {
+      const response = await fetch("/api/quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      setStatus(response.ok ? "success" : "error");
+    } catch {
+      setStatus("error");
+    }
+  }
+
   return (
-    <form className="mx-auto max-w-3xl rounded-xl border border-zinc-800 bg-zinc-900/60 p-8">
+    <form
+      className="mx-auto max-w-3xl rounded-xl border border-zinc-800 bg-zinc-900/60 p-8"
+      onSubmit={handleSubmit}
+    >
       <div className="grid gap-5 sm:grid-cols-2">
         <label className="flex flex-col gap-1.5">
           <span className={LABEL_CLASSES}>Proceso requerido</span>
@@ -72,8 +126,8 @@ function QuoteFormFields({ initialProcess }: { initialProcess: string }) {
           <span className={LABEL_CLASSES}>Fecha límite de entrega</span>
           <input
             name="dueDate"
-            type="text"
-            placeholder="DD/MM/AAAA"
+            type="date"
+            min={minDueDate}
             className={FIELD_CLASSES}
           />
         </label>
@@ -146,9 +200,19 @@ function QuoteFormFields({ initialProcess }: { initialProcess: string }) {
       </div>
 
       <div className="mt-6">
-        <Button type="submit" variant="primary">
-          Enviar solicitud
+        <Button type="submit" variant="primary" disabled={status === "submitting"}>
+          {status === "submitting" ? "Enviando..." : "Enviar solicitud"}
         </Button>
+        {status === "success" && (
+          <p role="status" className="mt-3 text-sm text-signal-green">
+            Solicitud enviada. Te contactaremos pronto.
+          </p>
+        )}
+        {status === "error" && (
+          <p role="status" className="mt-3 text-sm text-signal-red">
+            No pudimos enviar tu solicitud. Intenta de nuevo o escríbenos directamente.
+          </p>
+        )}
       </div>
     </form>
   );
