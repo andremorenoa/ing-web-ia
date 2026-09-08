@@ -1,8 +1,21 @@
-import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { QuoteForm } from "@/components/sections/QuoteForm";
 
+function fillRequiredFields() {
+  fireEvent.change(screen.getByLabelText("Tolerancia requerida"), {
+    target: { value: "±0.001″" },
+  });
+  fireEvent.change(screen.getByLabelText("Volumen estimado"), {
+    target: { value: "50 piezas" },
+  });
+}
+
 describe("QuoteForm", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
   it("has the core required fields and a submit button", () => {
     render(<QuoteForm />);
     expect(screen.getByLabelText("Proceso requerido")).toBeInTheDocument();
@@ -57,5 +70,59 @@ describe("QuoteForm", () => {
     const file = new File(["dummy"], "pieza-01.step", { type: "application/octet-stream" });
     fireEvent.change(fileInput, { target: { files: [file] } });
     expect(screen.getByText("pieza-01.step")).toBeInTheDocument();
+  });
+
+  it("submits the form as JSON to /api/quote", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(new Response("{}", { status: 200 }));
+    vi.stubGlobal("fetch", fetchMock);
+
+    render(<QuoteForm />);
+    fillRequiredFields();
+    fireEvent.click(screen.getAllByRole("checkbox")[0]);
+    fireEvent.click(screen.getByRole("button", { name: "Enviar solicitud" }));
+
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+    const [url, init] = fetchMock.mock.calls[0];
+    expect(url).toBe("/api/quote");
+    expect(init.method).toBe("POST");
+    expect(JSON.parse(init.body)).toEqual({
+      process: "Fresado CNC",
+      tolerance: "±0.001″",
+      quantity: "50 piezas",
+      dueDate: "",
+      materials: ["D2"],
+    });
+  });
+
+  it("shows a success message once the webhook accepts the submission", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response("{}", { status: 200 })));
+
+    render(<QuoteForm />);
+    fillRequiredFields();
+    fireEvent.click(screen.getByRole("button", { name: "Enviar solicitud" }));
+
+    expect(await screen.findByRole("status")).toHaveTextContent(/enviada/i);
+  });
+
+  it("shows an error message when the webhook proxy fails", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response("{}", { status: 500 })));
+
+    render(<QuoteForm />);
+    fillRequiredFields();
+    fireEvent.click(screen.getByRole("button", { name: "Enviar solicitud" }));
+
+    expect(await screen.findByRole("status")).toHaveTextContent(/no pudimos/i);
+  });
+
+  it("uses a date picker for the due date that can't select today or earlier", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(2027, 2, 15, 10, 0, 0));
+
+    render(<QuoteForm />);
+    const dueDate = screen.getByLabelText("Fecha límite de entrega") as HTMLInputElement;
+    expect(dueDate.type).toBe("date");
+    expect(dueDate.min).toBe("2027-03-16");
+
+    vi.useRealTimers();
   });
 });

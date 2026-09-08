@@ -1,0 +1,48 @@
+/* Re-themes the @n8n/chat widget (light by default) to match the
+   Vektor Precision CNC dark palette. Variable names/roles come from
+   node_modules/@n8n/chat/dist/style.css's :root block. */
+:root {
+  --chat--font-family: var(--font-sans);
+  --chat--border-radius: var(--radius-chamfer);
+
+  --chat--color--primary: var(--color-torch-500);
+  --chat--color--primary-shade-50: var(--color-torch-600);
+  --chat--color--primary--shade-100: var(--color-torch-600);
+  --chat--color--secondary: var(--color-steel-700);
+  --chat--color-secondary-shade-50: var(--color-steel-600);
+  --chat--color-light: var(--color-steel-800);
+  --chat--color-light-shade-50: var(--color-steel-700);
+  --chat--color-light-shade-100: var(--color-steel-600);
+  --chat--color-dark: var(--color-carbon-950);
+  --chat--color-white: var(--color-paper-50);
+
+  --chat--window--border: 1px solid var(--color-steel-700);
+  --chat--header--background: var(--color-carbon-950);
+  --chat--header--color: var(--color-paper-50);
+  --chat--body--background: var(--color-carbon-900);
+  --chat--footer--background: var(--color-carbon-950);
+  --chat--footer--color: var(--color-steel-400);
+  --chat--footer--border-top: 1px solid var(--color-steel-700);
+
+  --chat--message--bot--background: var(--color-steel-800);
+  --chat--message--bot--color: var(--color-paper-50);
+  --chat--message--user--background: var(--color-torch-500);
+  --chat--message--user--color: var(--color-carbon-950);
+
+  --chat--toggle--background: var(--color-torch-500);
+  --chat--toggle--hover--background: var(--color-torch-600);
+  --chat--toggle--active--background: var(--color-torch-600);
+  --chat--toggle--color: var(--color-carbon-950);
+
+  --chat--input--background: var(--color-carbon-900);
+  --chat--input--text-color: var(--color-paper-50);
+  --chat--input--container--background: var(--color-carbon-900);
+  --chat--input--container--border: 1px solid var(--color-steel-700);
+  --chat--input--send--button--background: var(--color-carbon-900);
+  --chat--input--send--button--color: var(--color-torch-500);
+  --chat--input--send--button--background-hover: var(--color-steel-800);
+  --chat--input--send--button--color-hover: var(--color-torch-400);
+  --chat--input--file--button--background: var(--color-carbon-900);
+  --chat--input--file--button--color: var(--color-steel-300);
+  --chat--input--file--button--color-hover: var(--color-paper-50);
+}
