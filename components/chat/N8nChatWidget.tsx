@@ -5,7 +5,7 @@ import { createChat } from "@n8n/chat";
 import "@n8n/chat/style.css";
 import "./n8n-chat-theme.css";
 import { CHAT_WEBHOOK_PROXY_PATH, pickRandomGreeting } from "@/lib/chat";
-import { focusNextElement } from "./focusNext";
+import { insertNewlineAtCursor } from "./insertNewline";
 
 const CHAT_CONTAINER_ID = "n8n-chat";
 
@@ -13,9 +13,11 @@ export function N8nChatWidget() {
   useEffect(() => {
     // @n8n/chat hardcodes Enter-to-send inside its own textarea keydown
     // handler, with no option to disable it. Intercept in the capture phase
-    // (before the library's own bubble-phase listener runs) so Enter jumps
-    // to the next control — e.g. the send button — instead of submitting;
-    // Shift+Enter and IME composition are left untouched.
+    // (before the library's own bubble-phase listener runs) so Enter inserts
+    // a newline and keeps the field focused (critical on mobile — moving
+    // focus off the textarea dismisses the on-screen keyboard) instead of
+    // submitting. Shift+Enter and IME composition are left untouched; the
+    // message only sends when the send button is actually tapped.
     const container = document.getElementById(CHAT_CONTAINER_ID);
     if (!container) return;
 
@@ -30,7 +32,7 @@ export function N8nChatWidget() {
       }
       event.preventDefault();
       event.stopPropagation();
-      focusNextElement(container, event.target);
+      insertNewlineAtCursor(event.target);
     };
 
     container.addEventListener("keydown", handleKeyDown, true);

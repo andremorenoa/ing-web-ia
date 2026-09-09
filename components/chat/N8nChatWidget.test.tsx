@@ -66,34 +66,35 @@ describe("N8nChatWidget", () => {
 
   describe("Enter key in the chat textarea", () => {
     // @n8n/chat mounts its own Vue app (mocked here), so we simulate the
-    // textarea + send button it would render inside #n8n-chat.
-    function renderWithFakeChatInput() {
+    // textarea it would render inside #n8n-chat.
+    function renderWithFakeChatInput(value = "hola") {
       const { container } = render(<N8nChatWidget />);
       const textarea = document.createElement("textarea");
-      const sendButton = document.createElement("button");
-      sendButton.textContent = "Enviar";
-      container.querySelector("#n8n-chat")!.append(textarea, sendButton);
-      return { textarea, sendButton };
+      textarea.value = value;
+      container.querySelector("#n8n-chat")!.append(textarea);
+      textarea.setSelectionRange(value.length, value.length);
+      return { textarea };
     }
 
-    it("does not submit on Enter — moves focus to the next control instead", () => {
-      const { textarea, sendButton } = renderWithFakeChatInput();
+    it("does not submit on Enter — inserts a newline and keeps focus in the textarea", () => {
+      const { textarea } = renderWithFakeChatInput("hola");
       textarea.focus();
 
       const event = fireEvent.keyDown(textarea, { key: "Enter", shiftKey: false });
 
       expect(event).toBe(false); // fireEvent returns false when preventDefault() was called
-      expect(document.activeElement).toBe(sendButton);
+      expect(textarea.value).toBe("hola\n");
+      expect(document.activeElement).toBe(textarea); // keyboard stays open on mobile
     });
 
-    it("leaves Shift+Enter alone (newline), not intercepted", () => {
-      const { textarea } = renderWithFakeChatInput();
+    it("leaves Shift+Enter alone (browser's own newline insertion), not intercepted", () => {
+      const { textarea } = renderWithFakeChatInput("hola");
       textarea.focus();
 
       const event = fireEvent.keyDown(textarea, { key: "Enter", shiftKey: true });
 
       expect(event).toBe(true); // not prevented
-      expect(document.activeElement).toBe(textarea);
+      expect(textarea.value).toBe("hola"); // jsdom doesn't simulate the native insertion either way
     });
 
     it("does not intercept Enter outside the chat textarea", () => {
