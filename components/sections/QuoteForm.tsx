@@ -3,13 +3,11 @@
 import { Suspense, useRef, useState, useSyncExternalStore, type FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/Button";
-import { PROCESS_OPTIONS, isProcessOption } from "@/lib/quote";
+import { MATERIAL_OPTIONS, PROCESS_OPTIONS, isProcessOption } from "@/lib/quote";
 
 const FIELD_CLASSES =
   "h-11 rounded-chamfer border border-steel-700 bg-carbon-900 px-3 text-paper-50 outline-none focus:border-torch-500 focus:shadow-[var(--ring-focus)]";
 const LABEL_CLASSES = "font-mono text-xs uppercase tracking-[0.06em] text-steel-400";
-
-const MATERIAL_OPTIONS = ["D2", "H13", "4140", "6061", "Nylamid", "Acero inoxidable"];
 
 function tomorrowAsDateInputValue(): string {
   const tomorrow = new Date();

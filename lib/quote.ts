@@ -12,6 +12,16 @@ export function isProcessOption(value: string): value is ProcessOption {
   return (PROCESS_OPTIONS as readonly string[]).includes(value);
 }
 
+// Shared with app/api/quote/route.ts so the server validates submissions
+// against the exact same option list the form renders.
+export const MATERIAL_OPTIONS = ["D2", "H13", "4140", "6061", "Nylamid", "Acero inoxidable"] as const;
+
+export type MaterialOption = (typeof MATERIAL_OPTIONS)[number];
+
+export function isMaterialOption(value: string): value is MaterialOption {
+  return (MATERIAL_OPTIONS as readonly string[]).includes(value);
+}
+
 // Maps docs/services.csv service ids to the closest match in PROCESS_OPTIONS,
 // so a "Cotizar este proceso" click can preselect the matching field in QuoteForm.
 export const SERVICE_ID_TO_PROCESS: Record<string, ProcessOption> = {
