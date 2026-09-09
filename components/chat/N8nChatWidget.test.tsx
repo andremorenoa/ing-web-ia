@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { CHAT_GREETINGS, CHAT_WEBHOOK_PROXY_PATH } from "@/lib/chat";
 
@@ -62,5 +62,76 @@ describe("N8nChatWidget", () => {
     const { unmount } = render(<N8nChatWidget />);
     unmount();
     expect(unmountAppMock).toHaveBeenCalledTimes(1);
+  });
+
+  describe("Enter key in the chat textarea", () => {
+    // @n8n/chat mounts its own Vue app (mocked here), so we simulate the
+    // textarea it would render inside #n8n-chat.
+    function renderWithFakeChatInput(value = "hola") {
+      const { container } = render(<N8nChatWidget />);
+      const textarea = document.createElement("textarea");
+      textarea.value = value;
+      container.querySelector("#n8n-chat")!.append(textarea);
+      textarea.setSelectionRange(value.length, value.length);
+      return { textarea };
+    }
+
+    // matchMedia isn't implemented in jsdom; stub it per-test to simulate a
+    // mobile (narrow) or desktop (wide) viewport.
+    function mockViewport(isMobile: boolean) {
+      window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+        matches: isMobile,
+        media: query,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      }));
+    }
+
+    it("on mobile: does not submit on Enter — inserts a newline and keeps focus in the textarea", () => {
+      mockViewport(true);
+      const { textarea } = renderWithFakeChatInput("hola");
+      textarea.focus();
+
+      const event = fireEvent.keyDown(textarea, { key: "Enter", shiftKey: false });
+
+      expect(event).toBe(false); // fireEvent returns false when preventDefault() was called
+      expect(textarea.value).toBe("hola\n");
+      expect(document.activeElement).toBe(textarea); // keyboard stays open on mobile
+    });
+
+    it("on mobile: leaves Shift+Enter alone (browser's own newline insertion), not intercepted", () => {
+      mockViewport(true);
+      const { textarea } = renderWithFakeChatInput("hola");
+      textarea.focus();
+
+      const event = fireEvent.keyDown(textarea, { key: "Enter", shiftKey: true });
+
+      expect(event).toBe(true); // not prevented
+      expect(textarea.value).toBe("hola"); // jsdom doesn't simulate the native insertion either way
+    });
+
+    it("on desktop: leaves Enter alone so the library's default send-on-Enter still works", () => {
+      mockViewport(false);
+      const { textarea } = renderWithFakeChatInput("hola");
+      textarea.focus();
+
+      const event = fireEvent.keyDown(textarea, { key: "Enter", shiftKey: false });
+
+      expect(event).toBe(true); // not prevented — the library's own handler runs
+      expect(textarea.value).toBe("hola");
+    });
+
+    it("does not intercept Enter outside the chat textarea", () => {
+      mockViewport(true);
+      render(<N8nChatWidget />);
+      const outsideInput = document.createElement("textarea");
+      document.body.appendChild(outsideInput);
+      outsideInput.focus();
+
+      const event = fireEvent.keyDown(outsideInput, { key: "Enter" });
+
+      expect(event).toBe(true); // not prevented — this listener leaves it alone
+      expect(document.activeElement).toBe(outsideInput);
+    });
   });
 });

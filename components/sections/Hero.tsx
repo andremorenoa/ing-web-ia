@@ -22,7 +22,7 @@ export function Hero({ image }: { image: StockImage }) {
       <div className="relative mx-auto max-w-[1280px] px-6 pb-24 pt-16">
         <div className="grid gap-16 lg:grid-cols-[1.3fr_1fr] lg:items-start">
           <div>
-            <h1 className="mb-5 max-w-[13ch] text-[3rem] font-bold leading-[1.05] tracking-[-0.01em]">
+            <h1 className="mb-5 max-w-[13ch] text-[2.25rem] font-bold leading-[1.05] tracking-[-0.01em] sm:text-[2.75rem] lg:text-[3rem]">
               Maquinados que entran en tolerancia. Punto.
             </h1>
             <p className="mb-8 max-w-[46ch] text-lg text-steel-300">
@@ -48,7 +48,7 @@ export function Hero({ image }: { image: StockImage }) {
           <div className="relative border border-steel-700 bg-carbon-950/60 p-6 backdrop-blur-sm">
             <CornerTicks />
             <DimensionLine className="mb-2.5" />
-            <div className="font-mono text-[3rem] font-semibold leading-none text-readout-400">
+            <div className="font-mono text-[2.25rem] font-semibold leading-none text-readout-400 sm:text-[2.75rem] lg:text-[3rem]">
               ±0.001″
             </div>
             <div className="mt-2 font-mono text-xs uppercase tracking-[0.06em] text-steel-400">
