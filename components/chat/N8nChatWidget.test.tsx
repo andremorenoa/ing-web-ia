@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { CHAT_GREETINGS, CHAT_WEBHOOK_PROXY_PATH } from "@/lib/chat";
 
@@ -62,5 +62,50 @@ describe("N8nChatWidget", () => {
     const { unmount } = render(<N8nChatWidget />);
     unmount();
     expect(unmountAppMock).toHaveBeenCalledTimes(1);
+  });
+
+  describe("Enter key in the chat textarea", () => {
+    // @n8n/chat mounts its own Vue app (mocked here), so we simulate the
+    // textarea + send button it would render inside #n8n-chat.
+    function renderWithFakeChatInput() {
+      const { container } = render(<N8nChatWidget />);
+      const textarea = document.createElement("textarea");
+      const sendButton = document.createElement("button");
+      sendButton.textContent = "Enviar";
+      container.querySelector("#n8n-chat")!.append(textarea, sendButton);
+      return { textarea, sendButton };
+    }
+
+    it("does not submit on Enter — moves focus to the next control instead", () => {
+      const { textarea, sendButton } = renderWithFakeChatInput();
+      textarea.focus();
+
+      const event = fireEvent.keyDown(textarea, { key: "Enter", shiftKey: false });
+
+      expect(event).toBe(false); // fireEvent returns false when preventDefault() was called
+      expect(document.activeElement).toBe(sendButton);
+    });
+
+    it("leaves Shift+Enter alone (newline), not intercepted", () => {
+      const { textarea } = renderWithFakeChatInput();
+      textarea.focus();
+
+      const event = fireEvent.keyDown(textarea, { key: "Enter", shiftKey: true });
+
+      expect(event).toBe(true); // not prevented
+      expect(document.activeElement).toBe(textarea);
+    });
+
+    it("does not intercept Enter outside the chat textarea", () => {
+      render(<N8nChatWidget />);
+      const outsideInput = document.createElement("textarea");
+      document.body.appendChild(outsideInput);
+      outsideInput.focus();
+
+      const event = fireEvent.keyDown(outsideInput, { key: "Enter" });
+
+      expect(event).toBe(true); // not prevented — this listener leaves it alone
+      expect(document.activeElement).toBe(outsideInput);
+    });
   });
 });
