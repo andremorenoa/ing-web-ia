@@ -76,7 +76,19 @@ describe("N8nChatWidget", () => {
       return { textarea };
     }
 
-    it("does not submit on Enter — inserts a newline and keeps focus in the textarea", () => {
+    // matchMedia isn't implemented in jsdom; stub it per-test to simulate a
+    // mobile (narrow) or desktop (wide) viewport.
+    function mockViewport(isMobile: boolean) {
+      window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+        matches: isMobile,
+        media: query,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      }));
+    }
+
+    it("on mobile: does not submit on Enter — inserts a newline and keeps focus in the textarea", () => {
+      mockViewport(true);
       const { textarea } = renderWithFakeChatInput("hola");
       textarea.focus();
 
@@ -87,7 +99,8 @@ describe("N8nChatWidget", () => {
       expect(document.activeElement).toBe(textarea); // keyboard stays open on mobile
     });
 
-    it("leaves Shift+Enter alone (browser's own newline insertion), not intercepted", () => {
+    it("on mobile: leaves Shift+Enter alone (browser's own newline insertion), not intercepted", () => {
+      mockViewport(true);
       const { textarea } = renderWithFakeChatInput("hola");
       textarea.focus();
 
@@ -97,7 +110,19 @@ describe("N8nChatWidget", () => {
       expect(textarea.value).toBe("hola"); // jsdom doesn't simulate the native insertion either way
     });
 
+    it("on desktop: leaves Enter alone so the library's default send-on-Enter still works", () => {
+      mockViewport(false);
+      const { textarea } = renderWithFakeChatInput("hola");
+      textarea.focus();
+
+      const event = fireEvent.keyDown(textarea, { key: "Enter", shiftKey: false });
+
+      expect(event).toBe(true); // not prevented — the library's own handler runs
+      expect(textarea.value).toBe("hola");
+    });
+
     it("does not intercept Enter outside the chat textarea", () => {
+      mockViewport(true);
       render(<N8nChatWidget />);
       const outsideInput = document.createElement("textarea");
       document.body.appendChild(outsideInput);

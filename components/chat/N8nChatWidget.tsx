@@ -18,15 +18,22 @@ export function N8nChatWidget() {
     // focus off the textarea dismisses the on-screen keyboard) instead of
     // submitting. Shift+Enter and IME composition are left untouched; the
     // message only sends when the send button is actually tapped.
+    //
+    // Mobile-only: below the `md` breakpoint (matches SiteHeader's
+    // hamburger cutoff) so desktop keeps the library's default Enter-to-send
+    // / Shift+Enter-for-newline behavior untouched.
     const container = document.getElementById(CHAT_CONTAINER_ID);
     if (!container) return;
+
+    const isMobileViewport = () => window.matchMedia("(max-width: 767px)").matches;
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (
         event.key !== "Enter" ||
         event.shiftKey ||
         event.isComposing ||
-        !(event.target instanceof HTMLTextAreaElement)
+        !(event.target instanceof HTMLTextAreaElement) ||
+        !isMobileViewport()
       ) {
         return;
       }
