@@ -5,6 +5,12 @@
   --chat--font-family: var(--font-sans);
   --chat--border-radius: var(--radius-chamfer);
 
+  /* Default window is a fixed 400x600px, which overflows off-screen on
+     phones narrower/shorter than that — cap it to the viewport instead. */
+  --chat--window--width: min(400px, calc(100vw - 2rem));
+  --chat--window--height: min(600px, calc(100vh - 6rem));
+
+
   --chat--color--primary: var(--color-torch-500);
   --chat--color--primary-shade-50: var(--color-torch-600);
   --chat--color--primary--shade-100: var(--color-torch-600);
